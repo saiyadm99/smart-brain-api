@@ -13,24 +13,23 @@ const image = require('./controllers/image');
 //const { response } = require('express');
 //const { user } = require('pg/lib/defaults');
 
+const { Client } = require('pg');
 
-const { pg } = require('pg');
-
-const pg = new Client({
+const db = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-pg.connect();
+db.connect();
 
-pg.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+db.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
-  client.end();
+  db.end();
 });
 
 
